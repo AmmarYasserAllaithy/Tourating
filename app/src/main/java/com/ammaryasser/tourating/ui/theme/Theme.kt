@@ -1,6 +1,5 @@
 package com.ammaryasser.tourating.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -9,35 +8,44 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
+
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = BLUE,
+    secondary = GREEN,
+    tertiary = YELLOW,
+    background = BLACK,
+    surface = Color(0xFF383835),
+    // on
+    onPrimary = WHITE,
+    onSecondary = WHITE,
+    onTertiary = BLACK,
+    onBackground = WHITE,
+    onSurface = Color(250, 245, 240),
 )
 
 private val LightColorScheme = lightColorScheme(
     primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
+    secondary = GREEN,
+    tertiary = Pink40,
     background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
+    surface = Color(0XFFF0F2F7),
+    // on
+    onPrimary = WHITE,
+    onSecondary = WHITE,
+    onTertiary = WHITE,
     onBackground = Color(0xFF1C1B1F),
     onSurface = Color(0xFF1C1B1F),
-    */
 )
+
 
 @Composable
 fun TouratingTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
