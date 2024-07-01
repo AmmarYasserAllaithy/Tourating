@@ -1,5 +1,6 @@
 package com.ammaryasser.tourating.data
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
@@ -15,7 +16,8 @@ data class Tourating(
     val id: Int = 0,
     val latitude: Double,
     val longitude: Double,
-    val title: String? = null,
+    @ColumnInfo(name = "site_name")
+    val siteName: String,
     val rating: Int,
     val review: String,
     val createdAt: Long = System.currentTimeMillis()

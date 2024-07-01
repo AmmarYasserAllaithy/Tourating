@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase
 
 @Database(
     entities = [Tourating::class],
-    version = 1,
+    version = 4,
     exportSchema = false
 )
 abstract class TouratingDatabase : RoomDatabase() {
