@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlin.math.ceil
 import kotlin.math.floor
@@ -21,21 +22,22 @@ import kotlin.math.floor
 fun RatingBar(
     modifier: Modifier = Modifier,
     rating: Double = 0.0,
-    stars: Int = 5,
+    max: Int = 5,
+    starSize: Dp = 32.dp,
     fillColor: Color = Color.Yellow,
     unFillColor: Color = Color.Gray,
 ) {
 
     val filledStars = floor(rating).toInt()
-    val unfilledStars = (stars - ceil(rating)).toInt()
+    val unfilledStars = (max - ceil(rating)).toInt()
 
     Row(modifier = modifier) {
         repeat(filledStars) {
-            Star(fillColor)
+            Star(starSize, fillColor)
         }
 
         repeat(unfilledStars) {
-            Star(unFillColor)
+            Star(starSize, unFillColor)
         }
     }
 
@@ -43,12 +45,12 @@ fun RatingBar(
 
 
 @Composable
-fun Star(tint: Color) {
+fun Star(starSize: Dp, tint: Color) {
     Icon(
         imageVector = Icons.TwoTone.Star,
         contentDescription = null,
         tint = tint,
-        modifier = Modifier.size(32.dp)
+        modifier = Modifier.size(starSize)
     )
 }
 
@@ -62,7 +64,7 @@ fun RatingPreview() {
 @Preview
 @Composable
 fun TenStarsRatingPreview() {
-    RatingBar(stars = 10, rating = 8.5)
+    RatingBar(max = 10, rating = 8.5)
 }
 
 @Preview
