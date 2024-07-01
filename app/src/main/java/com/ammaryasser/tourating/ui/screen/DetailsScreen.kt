@@ -1,18 +1,19 @@
 package com.ammaryasser.tourating.ui.screen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -20,6 +21,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ammaryasser.tourating.R
 import com.ammaryasser.tourating.ui.component.RatingBar
 import com.ammaryasser.tourating.ui.component.TopBar
+import com.ammaryasser.tourating.util.appGap
+import com.ammaryasser.tourating.util.appRoundedShape
 import com.ammaryasser.tourating.util.formatTimestamp
 import com.ammaryasser.tourating.viewmodel.DetailsScreenViewModel
 import com.google.android.gms.maps.model.CameraPosition
@@ -53,32 +56,45 @@ fun DetailsScreen(
 
             ReadonlyMap(latitude, longitude)
 
+
             Column(
                 modifier = Modifier
                     .padding(24.dp)
                     .fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(24.dp)
+                verticalArrangement = Arrangement.spacedBy(appGap)
             ) {
 
                 Text(
-                    text = title,
+                    text = siteName,
                     style = typography.titleLarge,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
 
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
+                Text(
+                    text = createdAt.formatTimestamp(),
+                    color = MaterialTheme.colorScheme.onBackground.copy(.5f)
+                )
 
-                    Text(text = createdAt.formatTimestamp())
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(appRoundedShape)
+                        .background(MaterialTheme.colorScheme.surface)
+                        .padding(appGap),
+                    verticalArrangement = Arrangement.spacedBy(appGap)
+                ) {
 
                     RatingBar(rating = rating.toDouble())
 
+                    Text(
+                        text = review,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+
+
                 }
 
-                Text(text = review)
 
             }
         }
