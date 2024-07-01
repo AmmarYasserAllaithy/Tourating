@@ -20,7 +20,7 @@ import com.ammaryasser.tourating.R
 fun TopBar(
     title: String = stringResource(R.string.app_name),
     navBack: Boolean = false,
-    onBack: () -> Unit = {},
+    onNavBack: () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
 ) {
     TopAppBar(
@@ -30,7 +30,7 @@ fun TopBar(
         actions = actions,
         navigationIcon = {
             if (navBack)
-                IconButton(onClick = onBack) {
+                IconButton(onClick = onNavBack) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Outlined.KeyboardArrowLeft,
                         contentDescription = "",
