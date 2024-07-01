@@ -21,8 +21,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ammaryasser.tourating.data.Tourating
 import com.ammaryasser.tourating.ui.component.FAB
+import com.ammaryasser.tourating.ui.component.ListItemCard
 import com.ammaryasser.tourating.ui.component.TopBar
-import com.ammaryasser.tourating.ui.component.TouratingCard
 import com.ammaryasser.tourating.util.appGap
 import com.ammaryasser.tourating.viewmodel.MainScreenViewModel
 
@@ -86,7 +86,7 @@ fun StaggeredGrid(
 
     LazyVerticalStaggeredGrid(
         modifier = modifier,
-        columns = StaggeredGridCells.Adaptive(minSize = 175.dp),
+        columns = StaggeredGridCells.Adaptive(minSize = 222.dp),
         contentPadding = PaddingValues(start = appGap, end = appGap, top = appGap, bottom = 88.dp),
         verticalItemSpacing = appGap,
         horizontalArrangement = Arrangement.spacedBy(space = appGap)
@@ -96,11 +96,10 @@ fun StaggeredGrid(
             key = { System.nanoTime() }
         ) {
             it.run {
-                TouratingCard(
-                    latitude,
-                    longitude,
-                    title,
-                    rating,
+                ListItemCard(
+                    siteName = siteName,
+                    rating = rating,
+                    review = review,
                     onSwipeToStart = { /* todo: delete */ },
                     onSwipeToEnd = { onItemEdit(id) },
                     onClick = { onItemClick(id) }
