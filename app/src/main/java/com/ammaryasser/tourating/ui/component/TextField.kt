@@ -47,6 +47,7 @@ fun FormTextField(
     value: String,
     isNumber: Boolean = false,
     isOptional: Boolean = false,
+    isMultiLine: Boolean = false,
     onValueChange: (String) -> Unit
 ) = FormTextField(
     icon,
@@ -55,6 +56,7 @@ fun FormTextField(
     value,
     isNumber,
     isOptional,
+    isMultiLine,
     onValueChange
 )
 
@@ -67,6 +69,7 @@ private fun FormTextField(
     value: String,
     isNumber: Boolean = false,
     isOptional: Boolean = false,
+    isMultiLine: Boolean = false,
     onValueChange: (String) -> Unit
 ) {
     var notifyError by remember { mutableStateOf(false) }
@@ -92,7 +95,7 @@ private fun FormTextField(
             capitalization = KeyboardCapitalization.Sentences,
             keyboardType = if (isNumber) KeyboardType.Number else KeyboardType.Text
         ),
-        singleLine = true,
+        singleLine = !isMultiLine,
         isError = notifyError,
     )
 }
