@@ -17,6 +17,9 @@ interface TouratingDao {
     @Delete
     suspend fun delete(tourating: Tourating)
 
+    @Query("DELETE FROM $TOURATING_TABLE_NAME WHERE id = :id")
+    suspend fun delete(id: Int)
+
     @Query("SELECT * FROM $TOURATING_TABLE_NAME")
     fun getAll(): Flow<List<Tourating>>
 

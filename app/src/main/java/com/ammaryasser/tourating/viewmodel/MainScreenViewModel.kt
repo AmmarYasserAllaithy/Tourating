@@ -18,10 +18,8 @@ class MainScreenViewModel(app: Application) : AndroidViewModel(app) {
 
     private val repo = TouratingRepository.getInstance(app.applicationContext)
     private val _touratingList = MutableLiveData<List<Tourating>>()
-//    private val _loading = MutableLiveData<Boolean>()
 
     val touratingList: LiveData<List<Tourating>> get() = _touratingList
-//    val loading: LiveData<Boolean> get() = _loading
 
 
     init {
@@ -30,18 +28,18 @@ class MainScreenViewModel(app: Application) : AndroidViewModel(app) {
 
 
     private fun fetchData() {
-//        _loading.postValue(true)
-
         viewModelScope.launch {
             repo.getAll().collect {
                 _touratingList.postValue(it)
-//                _loading.postValue(false)
             }
         }
     }
 
-
-    // todo: main functionality
+    fun delete(id: Int) {
+        viewModelScope.launch {
+            repo.delete(id)
+        }
+    }
 
 
     /**

@@ -13,6 +13,8 @@ class TouratingRepository(private val touratingDao: TouratingDao) {
 
     suspend fun delete(tourating: Tourating) = touratingDao.delete(tourating)
 
+    suspend fun delete(id: Int) = touratingDao.delete(id)
+
     fun getAll(): Flow<List<Tourating>> = touratingDao.getAll()
 
     fun getById(id: Int): Flow<Tourating> = touratingDao.getById(id)

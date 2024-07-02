@@ -20,6 +20,7 @@ import androidx.compose.material3.SearchBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -28,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ammaryasser.tourating.data.Tourating
+import com.ammaryasser.tourating.ui.component.ConfirmationDialog
 import com.ammaryasser.tourating.ui.component.FAB
 import com.ammaryasser.tourating.ui.component.ListItemCard
 import com.ammaryasser.tourating.ui.component.TopBar
@@ -113,6 +115,9 @@ fun StaggeredGrid(
     onItemClick: (Int) -> Unit
 ) {
 
+    var showDialog by remember { mutableStateOf(false) }
+    var deletionId by remember { mutableIntStateOf(-1) }
+
     LazyVerticalStaggeredGrid(
         modifier = modifier,
         columns = StaggeredGridCells.Adaptive(minSize = 222.dp),
@@ -129,12 +134,27 @@ fun StaggeredGrid(
                     siteName = siteName,
                     rating = rating,
                     review = review,
-                    onSwipeToStart = { /* todo: delete */ },
+                    onSwipeToStart = {
+                        showDialog = true
+                        deletionId = id
+                    },
                     onSwipeToEnd = { onItemEdit(id) },
                     onClick = { onItemClick(id) }
                 )
             }
         }
     }
+
+    if (showDialog)
+        ConfirmationDialog(
+            title = "Delete tourating",
+            text = "Do you want to permanently delete the review?",
+            confirmText = "Yes, delete",
+            dismissText = "No, keep",
+            onDismiss = { showDialog = false }
+        ) {
+            vm.delete(deletionId)
+            showDialog = false
+        }
 
 }
