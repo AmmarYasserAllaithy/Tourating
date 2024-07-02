@@ -13,7 +13,7 @@ const val TOURATING_TABLE_NAME = "tourating_table"
 data class Tourating(
 
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    var id: Int = 0,
     val latitude: Double,
     val longitude: Double,
     @ColumnInfo(name = "site_name")

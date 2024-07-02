@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.ammaryasser.tourating.ui.screen.DetailsScreen
+import com.ammaryasser.tourating.ui.screen.FormScreen
 import com.ammaryasser.tourating.ui.screen.MainScreen
 import com.ammaryasser.tourating.util.Screen
 
@@ -30,6 +31,22 @@ fun NavGraph(navController: NavHostController) {
                     navController.navigate(Screen.Details.dynamicRoute(id))
                 }
             )
+        }
+
+        composable(
+            route = Screen.Form.route,
+            arguments = listOf(
+                navArgument(Screen.Form.ID) {
+                    type = NavType.IntType
+                    defaultValue = -1
+                }
+            )
+        ) {
+            FormScreen(
+                id = it.arguments?.getInt(Screen.Form.ID),
+                onNavBack = {
+                    navController.popBackStack()
+                })
         }
 
         composable(
