@@ -64,7 +64,7 @@ fun FormScreen(
                 review = tourating.review
                 renderMap = true
             }
-        }
+        } ?: run { renderMap = true }
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
