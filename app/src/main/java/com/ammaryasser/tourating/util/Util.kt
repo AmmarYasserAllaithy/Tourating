@@ -10,4 +10,4 @@ val appGap = 16.dp
 val appRoundedShape = RoundedCornerShape(16.dp)
 
 
-fun Long.formatTimestamp(): String = SimpleDateFormat("MMM dd, yyyy").format(Date(this * 1000))
+fun Long.formatTimestamp(): String = SimpleDateFormat("MMM dd, yyyy").format(Date(this))
