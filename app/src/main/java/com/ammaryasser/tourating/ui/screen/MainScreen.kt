@@ -5,16 +5,24 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SearchBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -30,6 +38,7 @@ import com.ammaryasser.tourating.viewmodel.MainScreenViewModel
 private lateinit var vm: MainScreenViewModel
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     onAddTourating: () -> Unit,
@@ -42,7 +51,27 @@ fun MainScreen(
 
         Column(modifier = Modifier.fillMaxSize()) {
 
-            MainTopBar()
+            var showSearchField by remember { mutableStateOf(false) }
+            var query by remember { mutableStateOf("") }
+
+            MainTopBar { showSearchField = !showSearchField }
+
+            if (showSearchField)
+                SearchBar(
+                    modifier = Modifier
+                        .padding(appGap)
+                        .fillMaxWidth(),
+                    leadingIcon = {
+                        Icon(Icons.TwoTone.Search, null)
+                    },
+                    query = query,
+                    onQueryChange = { query = it },
+                    onSearch = { /* TODO */ },
+                    active = false,
+                    onActiveChange = {}
+                ) {
+
+                }
 
             vm.touratingList.observeAsState().value?.let {
                 StaggeredGrid(
@@ -64,9 +93,9 @@ fun MainScreen(
 }
 
 @Composable
-fun MainTopBar() {
+fun MainTopBar(onClickSearch: () -> Unit) {
     TopBar {
-        IconButton(onClick = {}) {
+        IconButton(onClick = onClickSearch) {
             Icon(
                 imageVector = Icons.TwoTone.Search,
                 contentDescription = "",
