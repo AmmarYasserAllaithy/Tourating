@@ -24,6 +24,7 @@ fun FormTextField(
     labelResId: Int,
     placeholderResId: Int,
     value: Int,
+    modifier: Modifier = Modifier,
     isNumber: Boolean = true,
     isOptional: Boolean = false,
     onValueChange: (Int) -> Unit
@@ -32,6 +33,7 @@ fun FormTextField(
     labelResId,
     placeholderResId,
     value.toString(),
+    modifier,
     isNumber,
     isOptional
 ) {
@@ -45,6 +47,7 @@ fun FormTextField(
     labelResId: Int,
     placeholderResId: Int,
     value: String,
+    modifier: Modifier = Modifier,
     isNumber: Boolean = false,
     isOptional: Boolean = false,
     isMultiLine: Boolean = false,
@@ -54,6 +57,7 @@ fun FormTextField(
     stringResource(labelResId),
     stringResource(placeholderResId),
     value,
+    modifier,
     isNumber,
     isOptional,
     isMultiLine,
@@ -67,6 +71,7 @@ private fun FormTextField(
     label: String,
     placeholder: String,
     value: String,
+    modifier: Modifier,
     isNumber: Boolean = false,
     isOptional: Boolean = false,
     isMultiLine: Boolean = false,
@@ -75,7 +80,7 @@ private fun FormTextField(
     var notifyError by remember { mutableStateOf(false) }
 
     OutlinedTextField(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         value = value,
         onValueChange = {
             onValueChange(it)
@@ -91,7 +96,7 @@ private fun FormTextField(
             Text(placeholder)
         },
         keyboardOptions = KeyboardOptions(
-            imeAction = ImeAction.Next,
+            imeAction = if (isMultiLine) ImeAction.Default else ImeAction.Next,
             capitalization = KeyboardCapitalization.Sentences,
             keyboardType = if (isNumber) KeyboardType.Number else KeyboardType.Text
         ),

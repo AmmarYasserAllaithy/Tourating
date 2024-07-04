@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.ammaryasser.tourating.R
 
@@ -18,6 +19,7 @@ import com.ammaryasser.tourating.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(
+    modifier: Modifier = Modifier,
     title: String = stringResource(R.string.app_name),
     navBack: Boolean = false,
     onNavBack: () -> Unit = {},
@@ -41,6 +43,7 @@ fun TopBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = colorScheme.primary,
             titleContentColor = colorScheme.onPrimary
-        )
+        ),
+        modifier = modifier
     )
 }
