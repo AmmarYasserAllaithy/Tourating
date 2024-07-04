@@ -1,11 +1,14 @@
 package com.ammaryasser.tourating.ui.screen
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.Place
 import androidx.compose.material.icons.twotone.Star
@@ -20,8 +23,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ammaryasser.tourating.R
 import com.ammaryasser.tourating.data.Tourating
@@ -67,79 +72,92 @@ fun FormScreen(
         } ?: run { renderMap = true }
     }
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    BoxWithConstraints(Modifier.fillMaxSize()) {
 
-        TopBar(
-            title = stringResource(if (isEditMode) R.string.edit_tourating else R.string.add_tourating),
-            navBack = true,
-            onNavBack = onNavBack
-        )
-
-        Column(
-            modifier = Modifier.padding(appGap),
-            verticalArrangement = Arrangement.spacedBy(appGap)
+        ConstraintLayout(
+            constraintSet = OrientationConstraints(minWidth),
+            modifier = Modifier.matchParentSize()
         ) {
+
+            TopBar(
+                modifier = Modifier.layoutId(Layouts.TopBar.id()),
+                title = stringResource(if (isEditMode) R.string.edit_tourating else R.string.add_tourating),
+                navBack = true,
+                onNavBack = onNavBack
+            )
 
             if (renderMap)
                 GMap(
-                    modifier = Modifier.clip(RoundedCornerShape(4.dp)),
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(6.dp))
+                        .layoutId(Layouts.GMap.id()),
                     latlng = LatLng(latitude, longitude)
                 ) {
                     latitude = it.latitude
                     longitude = it.longitude
                 }
 
-            FormTextField(
-                icon = Icons.TwoTone.Place,
-                labelResId = R.string.site_name_label,
-                placeholderResId = R.string.site_name_placeholder,
-                value = siteName
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
+                    .layoutId(Layouts.FormColumn.id()),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                siteName = it
-            }
 
-            FormTextField(
-                icon = Icons.TwoTone.Star,
-                labelResId = R.string.rating_label,
-                placeholderResId = R.string.rating_placeholder,
-                value = rating,
-                isNumber = true
-            ) {
-                rating = it
-            }
-
-            FormTextField(
-                icon = Review(),
-                labelResId = R.string.review_label,
-                placeholderResId = R.string.review_placeholder,
-                value = review,
-                isMultiLine = true
-            ) {
-                review = it
-            }
-
-            Button(
-                modifier = Modifier.fillMaxWidth(),
-                onClick = {
-                    val tourating = Tourating(
-                        latitude = latitude,
-                        longitude = longitude,
-                        siteName = siteName,
-                        rating = rating.toInt(),
-                        review = review
-                    )
-
-                    if (isEditMode) id?.let { tourating.id = it }
-
-                    vm.insertOrUpdate(tourating)
-                    onNavBack()
+                FormTextField(
+                    icon = Icons.TwoTone.Place,
+                    labelResId = R.string.site_name_label,
+                    placeholderResId = R.string.site_name_placeholder,
+                    value = siteName
+                ) {
+                    siteName = it
                 }
-            ) {
-                Text(text = "Done")
-            }
 
+                FormTextField(
+                    icon = Icons.TwoTone.Star,
+                    labelResId = R.string.rating_label,
+                    placeholderResId = R.string.rating_placeholder,
+                    value = rating,
+                    isNumber = true
+                ) {
+                    rating = it
+                }
+
+                FormTextField(
+                    icon = Review(),
+                    labelResId = R.string.review_label,
+                    placeholderResId = R.string.review_placeholder,
+                    value = review,
+                    isMultiLine = true
+                ) {
+                    review = it
+                }
+
+                Button(
+                    modifier = Modifier
+                        .padding(appGap)
+                        .fillMaxWidth(),
+                    onClick = {
+                        val tourating = Tourating(
+                            latitude = latitude,
+                            longitude = longitude,
+                            siteName = siteName,
+                            rating = rating.toInt(),
+                            review = review
+                        )
+
+                        if (isEditMode) id?.let { tourating.id = it }
+
+                        vm.insertOrUpdate(tourating)
+                        onNavBack()
+                    }
+                ) {
+                    Text(text = "Done")
+                }
+
+            }
         }
 
     }
-
 }
